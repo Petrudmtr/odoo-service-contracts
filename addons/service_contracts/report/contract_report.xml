@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_service_contract">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+
+                        <!-- Title -->
+                        <div class="text-center mb-5">
+                            <h1 style="font-size: 28px; letter-spacing: 2px; text-transform: uppercase;">
+                                Service Contract
+                            </h1>
+                            <h3 style="color: #666;"><span t-field="doc.name"/></h3>
+                            <span t-field="doc.state" class="badge bg-primary fs-6"/>
+                        </div>
+
+                        <hr/>
+
+                        <!-- Parties -->
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <h5 class="text-uppercase text-muted mb-2">Service Provider</h5>
+                                <p style="font-size: 14px;">
+                                    <strong t-esc="doc.company_id.name"/><br/>
+                                    <span t-field="doc.company_id.partner_id"
+                                          t-options='{"widget": "contact", "fields": ["address"]}'/>
+                                </p>
+                            </div>
+                            <div class="col-6">
+                                <h5 class="text-uppercase text-muted mb-2">Customer</h5>
+                                <p style="font-size: 14px;">
+                                    <span t-field="doc.partner_id"
+                                          t-options='{"widget": "contact", "fields": ["name", "address"]}'/>
+                                </p>
+                            </div>
+                        </div>
+
+                        <hr/>
+
+                        <!-- Contract Details -->
+                        <h5 class="text-uppercase text-muted mb-3">Contract Details</h5>
+                        <div class="row mb-4">
+                            <div class="col-4">
+                                <p><strong>Start Date:</strong><br/><span t-field="doc.date_start"/></p>
+                            </div>
+                            <div class="col-4">
+                                <p><strong>End Date:</strong><br/><span t-field="doc.date_end"/></p>
+                            </div>
+                            <div class="col-4">
+                                <p><strong>Days Remaining:</strong><br/><span t-field="doc.days_remaining"/></p>
+                            </div>
+                        </div>
+
+                        <!-- Services -->
+                        <h5 class="text-uppercase text-muted mb-3">Services Included</h5>
+                        <table class="table table-bordered">
+                            <thead style="background-color: #f5f5f5;">
+                                <tr>
+                                    <th>Service Description</th>
+                                    <th class="text-center" style="width: 100px;">Qty</th>
+                                    <th class="text-end" style="width: 130px;">Unit Price</th>
+                                    <th class="text-end" style="width: 130px;">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line">
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-center"><span t-field="line.quantity"/></td>
+                                    <td class="text-end"><span t-field="line.price_unit"/></td>
+                                    <td class="text-end"><span t-field="line.subtotal"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color: #f5f5f5;">
+                                    <td colspan="3" class="text-end">
+                                        <strong>TOTAL CONTRACT VALUE:</strong>
+                                    </td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.total_value"/></strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- Notes -->
+                        <div t-if="doc.notes" class="mb-4">
+                            <h5 class="text-uppercase text-muted mb-2">Additional Notes</h5>
+                            <p style="font-size: 13px;"><span t-field="doc.notes"/></p>
+                        </div>
+
+                        <!-- Signatures -->
+                        <div class="row mt-5 pt-4">
+                            <div class="col-5 text-center">
+                                <div style="border-top: 1px solid #000; padding-top: 8px;">
+                                    <p><strong>Service Provider</strong><br/>
+                                    <span style="color: #666; font-size: 12px;">Signature &amp; Date</span></p>
+                                </div>
+                            </div>
+                            <div class="col-2"/>
+                            <div class="col-5 text-center">
+                                <div style="border-top: 1px solid #000; padding-top: 8px;">
+                                    <p><strong>Customer</strong><br/>
+                                    <span style="color: #666; font-size: 12px;">Signature &amp; Date</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

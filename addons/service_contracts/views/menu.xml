@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem id="menu_service_contracts_root"
+        name="Service Contracts"
+        sequence="50"/>
+
+    <!-- Contracts Menu -->
+    <menuitem id="menu_service_contracts"
+        name="Contracts"
+        parent="menu_service_contracts_root"
+        action="action_service_contract"
+        sequence="10"/>
+
+    <!-- Requests Menu -->
+    <menuitem id="menu_service_requests"
+        name="Requests"
+        parent="menu_service_contracts_root"
+        action="action_service_request"
+        sequence="20"/>
+</odoo>

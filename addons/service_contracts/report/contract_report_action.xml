@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_service_contract" model="ir.actions.report">
+        <field name="name">Service Contract</field>
+        <field name="model">service.contract</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">service_contracts.report_service_contract</field>
+        <field name="report_file">service_contracts.report_service_contract</field>
+        <field name="binding_model_id" ref="model_service_contract"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
