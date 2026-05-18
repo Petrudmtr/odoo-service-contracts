@@ -1,26 +1,20 @@
-# Service Contracts — Odoo 17 Module
+# Service Contracts — Odoo 17
 
-A custom Odoo 17 module for managing service contracts and support requests.  
-Built as a portfolio project to demonstrate real-world Odoo development skills.
-
----
+Custom Odoo module for managing service contracts, support requests and automatic expiry reminders.
 
 ## Features
 
-- **Contract Management** — Create and manage service contracts with customers
-- **State Machine** — Draft → Active → Expired / Cancelled workflow with status tracking
-- **Service Lines** — Add multiple services per contract with automatic subtotal calculation
-- **Support Requests** — Track tickets linked to contracts, with priority levels
-- **Kanban View** — Visual board grouped by contract status
-- **PDF Report** — Printable contract document with company header and signature lines
-- **Expiry Reminders** — Automatic email notification when a contract is expiring (30 days)
-- **Scheduled Action** — Daily cron job that marks expired contracts and sends reminders
-- **Security Groups** — User / Manager roles with different permissions
-- **Demo Data** — Pre-loaded sample contracts and requests for testing
+- **Contract Management** — create and manage service contracts with customers
+- **State Machine** — Draft → Active → Expired / Cancelled workflow
+- **Service Lines** — multiple services per contract with automatic subtotal calculation
+- **Support Requests** — tickets linked to contracts with priority levels
+- **Kanban View** — visual board grouped by contract status
+- **PDF Report** — printable contract document with company header and signature lines
+- **Expiry Reminders** — automatic email notification 30 days before expiry
+- **Scheduled Action** — daily cron job that marks expired contracts and sends reminders
+- **Security Groups** — separate access for Users and Managers
 
----
-
-## Technical Concepts Demonstrated
+## Technical Concepts
 
 | Concept | Implementation |
 |---|---|
@@ -37,86 +31,68 @@ Built as a portfolio project to demonstrate real-world Odoo development skills.
 | Chatter | `mail.thread` + `mail.activity.mixin` inheritance |
 | Demo data | XML fixtures referencing base partners |
 
----
-
 ## Module Structure
 
 ```
 addons/service_contracts/
-├── __manifest__.py
-├── __init__.py
 ├── models/
-│   ├── service_contract.py       # Main contract model
-│   ├── service_contract_line.py  # Contract line items
-│   └── service_request.py        # Support requests / tickets
+│   ├── service_contract.py       ← main contract model
+│   ├── service_contract_line.py  ← contract line items
+│   └── service_request.py        ← support requests / tickets
 ├── views/
-│   ├── service_contract_views.xml  # List, Form, Kanban views
-│   ├── service_request_views.xml   # List, Form views
-│   └── menu.xml                    # Navigation menus
+│   ├── service_contract_views.xml  ← list, form, kanban views
+│   ├── service_request_views.xml   ← list, form views
+│   └── menu.xml                    ← navigation menus
 ├── report/
-│   ├── contract_report_action.xml  # Report action
-│   └── contract_report.xml         # QWeb PDF template
+│   ├── contract_report_action.xml  ← report action
+│   └── contract_report.xml         ← QWeb PDF template
 ├── data/
-│   └── mail_template.xml           # Email template + Cron job
+│   └── mail_template.xml           ← email template + cron job
 ├── security/
-│   ├── security.xml                # Groups definition
-│   └── ir.model.access.csv         # Model access rights
+│   ├── security.xml                ← groups definition
+│   └── ir.model.access.csv         ← model access rights
 └── demo/
-    └── demo_data.xml               # Sample data
+    └── demo_data.xml               ← sample data
 ```
 
----
+## Workflow
+
+1. Manager creates a **Service Contract** for a customer with services and validity period
+2. Manager activates the contract (Draft → Active)
+3. Customers or agents create **Support Requests** linked to the contract
+4. Daily cron job monitors expiry dates and sends **email reminders** at 30 days
+5. Manager prints a **PDF report** for signing or archiving
 
 ## Installation
 
 ### Requirements
-- Docker Desktop with WSL2
+
+- Docker Desktop
 - Docker Compose
 
 ### Setup
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/odoo-service-contracts.git
+git clone https://github.com/Petrudmtr/odoo-service-contracts.git
 cd odoo-service-contracts
 
-# Start Odoo + PostgreSQL
+# Start containers
 docker-compose up -d
 
-# Open browser
-http://localhost:8069
+# Open http://localhost:8069
+# Create database: name=odoo_dev, password=admin123, load demo data
+# Activate Developer Mode: Settings → Activate Developer Mode
+# Apps → search "Service Contracts" → Install
 ```
 
-Create a new database, then go to **Apps → Service Contracts → Install**.
+Add Administrator to the **Service Contracts / Manager** group:
+Settings → Users → Administrator → Service Contracts: Manager
 
-> **Note:** After installation, go to **Settings → Users → Administrator** and assign the **Service Contracts / Manager** group.
+## Credentials
 
----
-
-## Screenshots
-
-### Kanban View
-![Kanban View](docs/screenshots/kanban.png)
-
-### Contract Form
-![Contract Form](docs/screenshots/contract_form.png)
-
-### PDF Report
-![PDF Report](docs/screenshots/pdf_report.png)
-
----
-
-## Business Use Case
-
-This module solves a real business need: companies that sell recurring services (IT support, maintenance, consulting) need to:
-
-1. Track which services are included in each client's contract
-2. Monitor contract expiration dates proactively
-3. Manage support requests linked to specific contracts
-4. Generate professional contract documents for signing
-
----
-
-## Author
-
-Built with [Claude Code](https://claude.ai/code) as an Odoo 17 portfolio project.
+| | Value |
+|---|---|
+| URL | http://localhost:8069 |
+| Admin user | admin |
+| Admin password | admin123 |
